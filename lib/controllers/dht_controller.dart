@@ -39,10 +39,10 @@ class DhtController extends GetxController {
     _mqttService.registerCallback(topic, (String message) {
       print('Received message from topic $topic: $message');
       try {
-        final tempData = message;
+        final tempData = double.parse(message); // Convert string to double
 
         temperatureValue.update((value) {
-          value?.temperature = tempData as double;
+          value?.temperature = tempData; // Assign parsed double
         });
 
         temperatureValue.refresh();
@@ -56,10 +56,10 @@ class DhtController extends GetxController {
     _mqttService.registerCallback(topic, (String message) {
       print('Received message from topic $topic: $message');
       try {
-        final humData = message;
+        final humData = double.parse(message); // Convert string to double
 
         humidityValue.update((value) {
-          value?.humidity = humData as double;
+          value?.humidity = humData; // Assign parsed double
         });
 
         humidityValue.refresh();

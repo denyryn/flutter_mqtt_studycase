@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:uas_iot/models/humidity_model.dart';
+import 'package:uas_iot/models/temperature_model.dart';
 import 'dart:async';
 import '../services/utils.dart';
 import '../services/mqtt_service.dart';
@@ -27,6 +29,13 @@ class HomeViewModel extends GetxController {
     utils.refreshVariableValue(mqttConnected, true); // Update connection status
   }
 
+  void resetDht() {
+    dhtController.temperatureValue.value = TemperatureModel(temperature: 0.0);
+    dhtController.temperatureValue.refresh();
+    dhtController.humidityValue.value = HumidityModel(humidity: 0.0);
+    dhtController.humidityValue.refresh();
+  }
+
   void getDhtData() {
     Timer.periodic(const Duration(seconds: 3), (timer) {
       dhtController.fetchDhtData();
@@ -41,6 +50,7 @@ class HomeViewModel extends GetxController {
   void stop() {
     ledController.sendLedState(false);
     utils.refreshVariableValue(isActive, false);
+    resetDht();
   }
 
   // Disconnect from MQTT and update the connection status
